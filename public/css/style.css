@@ -3,12 +3,13 @@
   right: 0;
   bottom: 0;
   top: 0;
-  width: 200px;
+  width: 260px;
   background: #888;
 }
 
 .button{
-  width:98px;
+  font-size:11px;
+  width:128px;
   float:left;
   border:1px solid #aaa;
   background-color: #ddd;
@@ -16,8 +17,33 @@
   text-align:center;
   font-weight:bold;
   line-height:50px;
+  cursor:pointer;
+}
+
+.button:hover{
+  background:#eee;
 }
 
 #glasspane{
-  right: 200px;
+  right: 260px;
+}
+
+#stop, #emergency{
+  width:258px;
+}
+
+#takeoff{
+  background:green;
+}
+
+#land{
+  background:yellow;
+}
+
+#emergency{
+  background:red;
+}
+
+#emergency:hover, #takeoff:hover{
+  color:#fff;
 }
