@@ -47,3 +47,8 @@
 #emergency:hover, #takeoff:hover, #land:hover{
   color:#fff;
 }
+
+.button.active{
+  background: blue;
+  color:#fff;
+}
