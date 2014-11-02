@@ -6,20 +6,12 @@ PILOT_ACCELERATION = 0.04;
         var keyCodeMap    = {"0":"96","1":"97","2":"98","3":"99","4":"100","5":"101","6":"102","7":"103","8":"104","9":"105","backspace":"8","tab":"9","return":"13","shift":"16","ctrl":"17","alt":"18","pausebreak":"19","capslock":"20","escape":"27"," ":"32","pageup":"33","pagedown":"34","end":"35","home":"36","left":"37","up":"38","right":"39","down":"40","+":"107","printscreen":"44","insert":"45","delete":"46",";":"186","=":"187","a":"65","b":"66","c":"67","d":"68","e":"69","f":"70","g":"71","h":"72","i":"73","j":"74","k":"75","l":"76","m":"77","n":"78","o":"79","p":"80","q":"81","r":"82","s":"83","t":"84","u":"85","v":"86","w":"87","x":"88","y":"89","z":"90","*":"106","-":"189",".":"190","/":"191","f1":"112","f2":"113","f3":"114","f4":"115","f5":"116","f6":"117","f7":"118","f8":"119","f9":"120","f10":"121","f11":"122","f12":"123","numlock":"144","scrolllock":"145",",":"188","`":"192","[":"219","\\":"220","]":"221","'":"222"};
         //"
 
-        var forward  = 'w'
+        var forward  = 'z'
           , backward = 's'
-          , left     = 'a'
+          , left     = 'q'
           , right    = 'd'
           , flip     = 'f'
-          , channel  = 'c'
-          ;
-        if      (options && options.keyboard === 'qwerty') { }
-        else if (options && options.keyboard === 'azerty') {
-          forward  = 'z';
-          backward = 's';
-          left     = 'q';
-          right    = 'd';
-        }
+          , channel  = 'c';
 
         // Static keymap used within this module
         var Keymap = {
@@ -83,17 +75,89 @@ PILOT_ACCELERATION = 0.04;
         // config for array of buttons and their associated command or key
         var buttons = [
           {
+            id: "takeoff",
+            name: "Takeoff",
+            key: "t",
+            ev : 84
+          },
+          {
+            id: "land",
+            name: "Land",
+            key: "l",
+            ev : 76
+          },
+          {
+            id: "left",
+            name: "Left",
+            key: "q",
+            ev : 81
+          },
+          {
+            id: "right",
+            name: "Right",
+            key: "d",
+            ev : 68
+          },
+          {
+            id: "forward",
+            name: "Forward",
+            key: "z",
+            ev : 90
+          },
+          {
+            id: "back",
+            name: "Back",
+            key: "s",
+            ev : 83
+          },
+          {
+            id: "stop",
+            name: "Hover",
+            key: ":",
+            ev : 32
+          },
+          {
             id: "up",
-            name: "UP",
+            name: "Up",
             key: "↑",
             ev : 38
           },
           {
-            id: "stop",
-            name: "STOP",
-            key: ":",
-            ev : 32
-          }
+            id: "down",
+            name: "Down",
+            key: "↓",
+            ev : 40
+          },
+          {
+            id: "clockwise",
+            name: "Clockwise",
+            key: "←",
+            ev : 37
+          },
+          {
+            id: "anticlockwise",
+            name: "Anti-Clockwise",
+            key: "→",
+            ev : 39
+          },
+          {
+            id: "flip",
+            name: "Flip",
+            key: "f",
+            ev : 70
+          },
+          {
+            id: "camera",
+            name: "Switch Camera",
+            key: "c",
+            ev : 67
+          },
+          {
+            id: "emergency",
+            name: "Emergency",
+            key: "e",
+            ev : 69
+          },
         ];
 
 
