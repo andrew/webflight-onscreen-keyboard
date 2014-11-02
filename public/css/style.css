@@ -44,6 +44,6 @@
   background:red;
 }
 
-#emergency:hover, #takeoff:hover{
+#emergency:hover, #takeoff:hover, #land:hover{
   color:#fff;
 }
