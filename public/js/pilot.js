@@ -6,12 +6,12 @@ PILOT_ACCELERATION = 0.04;
         var keyCodeMap    = {"0":"96","1":"97","2":"98","3":"99","4":"100","5":"101","6":"102","7":"103","8":"104","9":"105","backspace":"8","tab":"9","return":"13","shift":"16","ctrl":"17","alt":"18","pausebreak":"19","capslock":"20","escape":"27"," ":"32","pageup":"33","pagedown":"34","end":"35","home":"36","left":"37","up":"38","right":"39","down":"40","+":"107","printscreen":"44","insert":"45","delete":"46",";":"186","=":"187","a":"65","b":"66","c":"67","d":"68","e":"69","f":"70","g":"71","h":"72","i":"73","j":"74","k":"75","l":"76","m":"77","n":"78","o":"79","p":"80","q":"81","r":"82","s":"83","t":"84","u":"85","v":"86","w":"87","x":"88","y":"89","z":"90","*":"106","-":"189",".":"190","/":"191","f1":"112","f2":"113","f3":"114","f4":"115","f5":"116","f6":"117","f7":"118","f8":"119","f9":"120","f10":"121","f11":"122","f12":"123","numlock":"144","scrolllock":"145",",":"188","`":"192","[":"219","\\":"220","]":"221","'":"222"};
         //"
 
-        var forward  = 'z'
-          , backward = 's'
-          , left     = 'q'
-          , right    = 'd'
-          , flip     = 'f'
-          , channel  = 'c';
+        var forward  = 'z',
+            backward = 's',
+            left     = 'q',
+            right    = 'd',
+            flip     = 'f',
+            channel  = 'c';
 
         // Static keymap used within this module
         var Keymap = {
@@ -71,6 +71,8 @@ PILOT_ACCELERATION = 0.04;
         Keymap[keyCodeMap[channel]]  = {
           ev : 'channel'
         };
+
+        var timeout;
 
         // config for array of buttons and their associated command or key
         var buttons = [
@@ -202,24 +204,18 @@ PILOT_ACCELERATION = 0.04;
          */
         Pilot.prototype.listen = function listen() {
                 var pilot = this;
-                // $(document).keydown(function(ev) {
-                //         pilot.keyDown(ev);
-                // });
+                $(document).keydown(function(ev) {
+                  pilot.stop();
+                  pilot.keyDown(ev);
+                });
 
                 $('.button').click(function(){
                   var button = $(this);
-                  pilot.keyUp();
+
+                  pilot.stop();
+                  button.addClass('active');
                   pilot.keyDown({keyCode: button.data().ev, preventDefault:function(){}});
-
-                  // setTimeout(function(argument) {
-                  //   pilot.keyUp();
-                  // }, 2000)
-
                 });
-
-                // $(document).keyup(function(ev) {
-                //         pilot.keyUp(ev);
-                // });
 
                 $('#calibratemagneto').click(function(ev) {
                   ev.preventDefault();
@@ -249,6 +245,7 @@ PILOT_ACCELERATION = 0.04;
          */
         Pilot.prototype.keyDown = function keyDown(ev) {
                 console.log("Keydown: " + ev.keyCode);
+                clearTimeout(timout)
                 if (ev.keyCode == 9) {
                   PILOT_ACCELERATION = (PILOT_ACCELERATION == 0.04) ? 0.64 : 0.04;
                   console.log("PILOT_ACCELERATION: " + PILOT_ACCELERATION);
@@ -285,6 +282,9 @@ PILOT_ACCELERATION = 0.04;
                 }
                 // If a motion command, we just update the speed
                 if (cmd.ev == "move") {
+                    timout = setTimeout(function(argument) {
+                      this.stop();
+                    }, 2000);
                     this.moving = Keymap[ev.keyCode].action;
                     if (typeof(this.keys[key])=='undefined' || this.keys[key]===null) {
                         this.keys[key] = PILOT_ACCELERATION;
@@ -303,29 +303,34 @@ PILOT_ACCELERATION = 0.04;
          * and send a stop command for this direction
          */
         Pilot.prototype.keyUp = function keyUp(ev) {
-                // console.log("Keyup: " + ev.keyCode);
-                // if (Keymap[ev.keyCode] == null) {
-                //         return;
-                // }
-                // ev.preventDefault();
-                //
-                // // Delete the key from the tracking array
-                // var key = ev.keyCode;
-                // delete this.keys[key];
-                //
-                // // Send a command to set the motion in this direction to zero
-                // if (Object.keys(this.keys).length > 0) {
-                //   var cmd = Keymap[key];
-                //   this.cockpit.socket.emit("/pilot/" + cmd.ev, {
-                //       action : cmd.action,
-                //       speed : 0
-                //   });
-                // } else { // hovering state if no more active commands
-                  this.keys = []
-                  this.cockpit.socket.emit("/pilot/drone", {
-                      action : 'stop'
+                console.log("Keyup: " + ev.keyCode);
+                if (Keymap[ev.keyCode] == null) {
+                        return;
+                }
+                ev.preventDefault();
+
+                // Delete the key from the tracking array
+                var key = ev.keyCode;
+                delete this.keys[key];
+
+                // Send a command to set the motion in this direction to zero
+                if (Object.keys(this.keys).length > 0) {
+                  var cmd = Keymap[key];
+                  this.cockpit.socket.emit("/pilot/" + cmd.ev, {
+                      action : cmd.action,
+                      speed : 0
                   });
-                // }
+                } else { // hovering state if no more active commands
+                  this.stop();
+                }
+        }
+
+        Pilot.prototype.stop = function(){
+          $('.active').removeClass('active')
+          this.keys = [];
+          this.cockpit.socket.emit("/pilot/drone", {
+              action : 'stop'
+          });
         }
 
         /*
