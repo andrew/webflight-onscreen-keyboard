@@ -48,11 +48,12 @@ so it looks something like this:
 
 ```javascript
 var config = {
-    plugins: [
-      "hud"
-      , "onscreen-keyboard"
-      , "video-stream"
-    ]
+  plugins: [
+  "hud"
+  , "onscreen-keyboard"
+  , "video-stream"
+  , "battery"
+  ]
 };
 
 module.exports = config;
