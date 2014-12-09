@@ -9,9 +9,9 @@
 
 .button{
   font-size:11px;
-  width:128px;
+  width:130px;
   float:left;
-  border:1px solid #aaa;
+  outline:1px solid #aaa;
   background-color: #ddd;
   font-family:helvetica;
   text-align:center;
@@ -29,7 +29,7 @@
 }
 
 #stop, #emergency{
-  width:258px;
+  width:260px;
 }
 
 #takeoff{
