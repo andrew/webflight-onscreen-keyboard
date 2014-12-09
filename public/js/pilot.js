@@ -325,7 +325,7 @@ PILOT_ACCELERATION = 0.04;
                 }
         }
 
-        Pilot.prototype.stop = function(){
+        Pilot.prototype.stop = function stop(){
           $('.active').removeClass('active')
           this.keys = [];
           this.cockpit.socket.emit("/pilot/drone", {
