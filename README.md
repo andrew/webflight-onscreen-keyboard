@@ -23,6 +23,13 @@ Run `npm install` for each:
 (cd webflight-onscreen-keyboard && npm install)
 ```
 
+Plus `bower install` for webflight:
+
+```
+npm install -g bower
+(cd ardrone-webflight && bower install)
+```
+
 Link `webflight-onscreen-keyboard` into webflight's `plugins` directory:
 
 ```
