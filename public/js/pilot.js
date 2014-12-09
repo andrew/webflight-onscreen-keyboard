@@ -245,7 +245,7 @@ PILOT_ACCELERATION = 0.04;
          */
         Pilot.prototype.keyDown = function keyDown(ev) {
                 console.log("Keydown: " + ev.keyCode);
-                clearTimeout(timout)
+                clearTimeout(timeout)
                 if (ev.keyCode == 9) {
                   PILOT_ACCELERATION = (PILOT_ACCELERATION == 0.04) ? 0.64 : 0.04;
                   console.log("PILOT_ACCELERATION: " + PILOT_ACCELERATION);
@@ -282,7 +282,7 @@ PILOT_ACCELERATION = 0.04;
                 }
                 // If a motion command, we just update the speed
                 if (cmd.ev == "move") {
-                    timout = setTimeout(function(argument) {
+                    timeout = setTimeout(function(argument) {
                       this.stop();
                     }, 2000);
                     this.moving = Keymap[ev.keyCode].action;
